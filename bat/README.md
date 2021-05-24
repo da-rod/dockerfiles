@@ -20,14 +20,14 @@ bat(){
         local DOCKER_IMG="peper/bat"
         local DOCKER_CMD="docker run -it --rm -e BAT_THEME=$BAT_THEME"
         for f in "$@"; do
-        if [[ "$f" =~ ^\.\. ]]; then
-                $DOCKER_CMD -v "$(cd "$(dirname "$f")" && pwd):/data" "$DOCKER_IMG" "$(basename "$f")"
-        elif [[ "$f" =~ ^\/ ]]; then
-                $DOCKER_CMD -v "$(dirname "$f"):/data" "$DOCKER_IMG" "$(basename "$f")"
-        else
-                $DOCKER_CMD -v "$PWD:/data" "$DOCKER_IMG" "$f"
-        fi
-done
+                if [[ "$f" =~ ^\.\. ]]; then
+                        $DOCKER_CMD -v "$(cd "$(dirname "$f")" && pwd):/data" "$DOCKER_IMG" "$(basename "$f")"
+                elif [[ "$f" =~ ^\/ ]]; then
+                        $DOCKER_CMD -v "$(dirname "$f"):/data" "$DOCKER_IMG" "$(basename "$f")"
+                else
+                        $DOCKER_CMD -v "$PWD:/data" "$DOCKER_IMG" "$f"
+                fi
+        done
 }
 ```
 
